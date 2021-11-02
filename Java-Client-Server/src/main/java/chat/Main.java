@@ -11,7 +11,7 @@ import java.awt.event.KeyEvent;
  * @author Admin
  */
 public class Main extends javax.swing.JDialog {
-
+    // Doi tuong dai dien cho Client hoac Server
     private Connection mConnection = null;
 
     /**
@@ -175,6 +175,7 @@ public class Main extends javax.swing.JDialog {
 
     private void btnConnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConnectActionPerformed
         // TODO add your handling code here:
+        // Tao ra Client ket noi voi Server co ip va port da nhap
         String ip = txtIP.getText();
         int port = Integer.parseInt(txtPort.getText());
         mConnection = new Client(ip, port, txtNotification, chatArea);
@@ -183,13 +184,16 @@ public class Main extends javax.swing.JDialog {
 
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
         // TODO add your handling code here:
+        // Tao ra Server va lang nghe Client tai port da nhap
         int port = Integer.parseInt(txtPort.getText());
         mConnection = new Server(port, txtNotification, chatArea);
+        // Can thuc hien start Server trong thread khac de UI khong bi treo
         new Thread(() -> mConnection.start()).start();
     }//GEN-LAST:event_btnCreateActionPerformed
 
     private void btnDisconnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDisconnectActionPerformed
         // TODO add your handling code here:
+        // Gui di message ket thuc vao ngat ket noi
         mConnection.Send("!!!OVER!!!");
         mConnection.stop();
         mConnection = null;
@@ -197,9 +201,12 @@ public class Main extends javax.swing.JDialog {
 
     private void btnSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendActionPerformed
         // TODO add your handling code here:
+        // Loai bo khoang trang o dau va duoi message, kiem tra message roi gui di
         String msg = txtSend.getText().trim();
         if (mConnection != null && !msg.equals("")) {
             mConnection.Send(msg);
+
+            // Reset lai vung nhap message
             txtSend.setText("");
 
         }
@@ -208,6 +215,7 @@ public class Main extends javax.swing.JDialog {
 
     private void txtSendKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSendKeyPressed
         // TODO add your handling code here:
+        // Khi an nut ENTER thi thuc hien gui tin nhan
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             btnSend.doClick();
         }
